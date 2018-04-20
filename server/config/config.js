@@ -12,7 +12,7 @@ if(env == 'development'){
 process.env.PORT = 5000;
 
 if(env === 'development'){
-	process.env.MONGO_URL = 'mongodb://localhost:27017';
+	process.env.MONGO_URL = 'mongodb://localhost:27017/custom_embed';
 }
 
 mongoose.Promise = global.Promise;

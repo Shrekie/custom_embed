@@ -36,7 +36,7 @@ app.use(require('express-session')({
     store: store,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true }
+    //TODO: Set this to true: cookie: { secure: false }
 }));
 
 // Route encoding settings
