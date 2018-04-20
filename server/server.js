@@ -1,0 +1,77 @@
+const config = require('./config/config.js');
+
+// Package imports
+const express = require('express')
+const path = require('path')
+const bodyParser = require('body-parser')
+const session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
+
+// Custom route imports
+const application = require('./routes/application');
+const oAuthRoute = require('./routes/google-oauth');
+const yt_stream_conv = require('./routes/yt_stream_conv');
+
+
+var app = express();
+app.set('trust proxy', true);
+
+//Session storage settings
+var store = new MongoDBStore({
+    uri: process.env.MONGO_URL,
+    databaseName: 'custom_embed',
+    collection: 'mySessions'
+});
+
+store.on('error', function(error) {
+    assert.ifError(error);
+    assert.ok(false);
+});
+
+app.use(require('express-session')({
+    secret: process.env.sessionSecret,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+    },
+    store: store,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true }
+}));
+
+// Route encoding settings
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Path sources
+app.use(express.static(__dirname + '/public/'));
+app.use('/bower_components', express.static(path.join(__dirname, '/../bower_components')))
+app.use('/assets', express.static(path.join(__dirname, '/../assets')));
+
+//Routes
+app.use(application);
+app.use(oAuthRoute);
+app.use(yt_stream_conv);
+
+app.get('/error', (req, res) => {
+	res.sendFile(__dirname + '/public/html/information.html');
+});
+
+app.get('/userLogin', (req, res) => {
+	res.sendFile(__dirname + '/public/html/userLogin.html');
+});
+
+app.get('/*', (req, res) => {
+    res.sendFile(__dirname + '/public/html/index.html');
+})
+
+// Create server
+if(config.env == 'development'){
+	require('./config/development.js').createDevServer(app).listen(process.env.PORT, () => {
+        console.log("Development server started at "+process.env.PORT);
+    });
+}else{
+	app.listen(process.env.PORT, '0.0.0.0', () => {
+		console.log('Started on port ', process.env.PORT);
+	});
+}

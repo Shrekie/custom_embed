@@ -1,0 +1,6 @@
+node_modules/
+bower_components/
+package-lock.json
+.vscode/
+server/config/development.js
+server/config/secrets.js

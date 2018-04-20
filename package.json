@@ -1,0 +1,31 @@
+{
+  "name": "custom_embed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "postinstall": "bower install"
+  },
+  "engines": {
+    "node": "6.2.2",
+    "npm": "5.0.3"
+  },
+  "author": "Thomas Lindauer",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "bower": "^1.8.4",
+    "connect-mongodb-session": "^2.0.2",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "mongodb": "^3.0.7",
+    "mongoose": "^5.0.15",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "youtube-dl": "^1.12.2"
+  },
+  "devDependencies": {
+    "https": "^1.0.0"
+  }
+}

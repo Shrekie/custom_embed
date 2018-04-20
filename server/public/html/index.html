@@ -1,0 +1,40 @@
+<html ng-app="custom_embed">
+    <head>
+
+        <base href="/">
+
+        <!-- JQUERY -->
+        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+
+        <!-- BOOTSTRAP -->
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <!-- ANGULAR -->
+        <script src="/bower_components/angular/angular.js"></script>
+        <script src="/bower_components/angular-route/angular-route.js"></script>
+        
+        <!-- CORE -->
+        <link rel="stylesheet" href="/css/core.css">
+        <script src="/js/core.js"></script>
+
+        <!-- Services -->
+        <script src="/js/googleApi.js"></script>
+
+        <!-- META -->
+        <meta charset="utf-8">
+        <title>custom_embed</title>
+
+    </head>
+
+    <body ng-controller="mainController">
+        <div class="container">
+                <h1>custom_embed</h1>
+                <input ng-model="YTURL" class="form-control form-control-lg" type="text" placeholder="YouTube URL Here">
+                <button ng-click="getStream()" type="button" class="btn btn-primary">Gimme stream</button>
+                <video id="videoPlayer" controls="" autoplay="" name="media"></video>
+                <button ng-click="loginGoogle()" type="button" class="btn btn-primary">Login Google</button>
+        </div>
+    </body>
+
+</html>
