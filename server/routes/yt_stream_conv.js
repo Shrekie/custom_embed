@@ -24,7 +24,7 @@ var addEmbed = function(profileID, url, done) {
         if(err) {
             throw err;
         } else {
-            done(url)
+            done();
         }
     });
 
@@ -41,8 +41,7 @@ router.post('/getStream', (req, res)=>{
             if (err) throw err;
 
             var url = output[0];
-            console.log(url);
-            addEmbed(req.user.profileID, url, function(url){
+            addEmbed(req.user.profileID, link, function(link){
                 res.json(url);
             });
 
