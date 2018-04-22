@@ -10,8 +10,8 @@ var MongoDBStore = require('connect-mongodb-session')(session);
 // Custom route imports
 const application = require('./routes/application');
 const oAuthRoute = require('./routes/google-oauth');
-const yt_stream_conv = require('./routes/yt_stream_conv');
-
+const save_stream = require('./routes/save_stream');
+const display_stream = require('./routes/display_stream');
 
 var app = express();
 app.set('trust proxy', true);
@@ -51,7 +51,12 @@ app.use('/assets', express.static(path.join(__dirname, '/../assets')));
 //Routes
 app.use(application);
 app.use(oAuthRoute);
-app.use(yt_stream_conv);
+app.use(save_stream);
+app.use(display_stream);
+
+// view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/public/html/'));
 
 app.get('/error', (req, res) => {
 	res.sendFile(__dirname + '/public/html/information.html');

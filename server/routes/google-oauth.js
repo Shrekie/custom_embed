@@ -55,6 +55,14 @@ passport.authenticate('google', {
 	successRedirect: '/userLogin'
 }));
 
+//Check authentication
+//TODO: Create a server wide function to deal with request to routes without user being signed in.
+// ex: return log in page like /index
+router.get('/checkLogin', (req, res)=>{
+	if(req.isAuthenticated())res.json({logged:true});
+	else res.json({logged:false});
+});
+
 // Serialize user information <->
 passport.serializeUser(function(user, done) {
 	done(null, user.id);

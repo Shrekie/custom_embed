@@ -4,11 +4,11 @@ const uuid = require('uuid/v1');
 
 var Embed = new Schema({
     profileID: String,
-    embedUrl: [{
+    _id: { type: String, required: true, default: uuid},
+    embedUrl: {
         extractorType: String, 
         url: String,
-        _id: { type: String, required: true, default: uuid}
-    }]
+    }
 });
 
 module.exports = mongoose.model('Embed', Embed);

@@ -8,23 +8,21 @@
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         
-        <!-- CORE -->
-        <!--<link rel="stylesheet" href="/css/core.css">-->
+        <link rel="stylesheet" href="/css/templates/templateOne.css">
         <!--<script src="/js/core.js"></script>-->
 
         <!-- META -->
         <meta charset="utf-8">
-        <title>Logging in</title>
+        <title>Video</title>
 
     </head>
 
     <body>
-        <p id="loginMessage">Logging in..</p>
+        <video width="560" height="315" class='Flexible-container' id="videoPlayer" controls="" src="<%= video.stream %>" autoplay name="media"></video>
     </body>
     <script>
         $(window).on('load',function() {
-            if(!window.opener) $('#loginMessage').text('An error has occurred');
-            window.opener.postMessage("this window has loaded",'*');
+            console.log('load');
         });
     </script>
 </html>

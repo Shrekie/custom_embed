@@ -1,7 +1,6 @@
 app.factory('googleApi', function($http, $q, $window) {
 
 	var authenticate = function(cb){
-        //TODO: Check login before forcing authentication.
 
 		var width = 800, height = 600;
 		var w = window.outerWidth - width, h = window.outerHeight - height;
@@ -13,13 +12,33 @@ app.factory('googleApi', function($http, $q, $window) {
 		$window.addEventListener("message", function(event){
 			if(event.data == "this window has loaded");
 			loginWindow.close();
+			//TODO: Can this be reached without authentication?
 			cb();
 		}, {once:true});
 
 	};
 
+	var checkAuthentication = function(){
+		var deferred = $q.defer();
+		$http({
+			url: 'checkLogin',
+			method: "GET",
+		}).then(function (success) {
+			if (success.data.logged){
+				deferred.resolve(success.data.logged);
+			}
+			else{
+				deferred.resolve(success.data.logged);
+			}
+		}, function (error) {
+			deferred.reject(error);
+		});
+		return deferred.promise;
+	};
+
     return{
-		authenticate
+		authenticate,
+		checkAuthentication
 	}
 
 });
