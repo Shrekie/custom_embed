@@ -1,3 +1,5 @@
-<div>
-    <h1>My embeds!</h1>
+<div ng-repeat="embed in embeds track by $index" class="row mt-1 text-center ">
+        <div class="col">
+            <p>{{embed._id}}</p>
+        </div>
 </div>

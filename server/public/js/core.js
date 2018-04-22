@@ -23,7 +23,7 @@ app.controller('loginController', function($scope, $http, googleApi) {
 		$scope.userAuthenticated = response;
 	},
 	(e)=>{
-		throw 'cant authenticate';
+		console.log(e);
 	});
 	$scope.loginGoogle = function(){
 		googleApi.authenticate(function() {
@@ -34,28 +34,27 @@ app.controller('loginController', function($scope, $http, googleApi) {
 	};
 });
 
-app.controller('mainController', function($scope, $http, googleApi) {
+app.controller('mainController', function($scope, $http, googleApi, embedStream) {
 
 	$scope.getStream = function(){
-		console.log($scope.YTURL);
-		$http({
-			url: 'generateEmbed',
-			method: "POST",
-			data: { YTURL : $scope.YTURL }
-		}).then(function (success) {
-			console.log(success);
-			$('#videoPlayer')[0].src = success.data;
+		embedStream.generateEmbed($scope.YTURL).then((streamUrl) => {
+			$('#videoPlayer')[0].src = streamUrl;
 			$('#iframeExample').text('<iframe frameborder="0" allow="autoplay; encrypted-media" allowfullscreen width="560" height="315" ' 
-			+ 'src="http://localhost:5000/'+success.data+'"></iframe>');
-		}, function (error) {
-			console.log(error);
-		});
-
+			+ 'src="'+window.location+streamUrl+'"></iframe>');
+		}, (e) => {
+			console.log(e);
+        });
 	};
 });
 
-app.controller('userEmbedCtrl', function($scope, $http, googleApi) {
-
-	console.log('AYYY');
+app.controller('userEmbedCtrl', function($scope, $http, googleApi, embedStream) {
+	$('#userEmbeds-tab').tab('show')
+	$scope.embeds = {}
+	embedStream.getUserEmbeds().then((embeds) => {
+		$scope.embeds = embeds;
+		console.log(embeds)
+	}, (e) => {
+		console.log(e);
+	});
 
 });
