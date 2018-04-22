@@ -34,6 +34,7 @@ router.post('/getStream', (req, res)=>{
     if(req.isAuthenticated()){
         var link = req.body.YTURL;
 
+        //TODO: Look into this command and how to bind to client IP -source-address
         const ytdl = require('youtube-dl');
 
         ytdl.exec(link, ['-f best', '-s', '-g'], {}, function(err, output) {
