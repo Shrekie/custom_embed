@@ -8,6 +8,7 @@ var Embed = new Schema({
     embedUrl: {
         extractorType: String, 
         url: String,
+        title: String
     }
 });
 

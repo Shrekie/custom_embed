@@ -6,12 +6,13 @@ const Embed = require('./../models/embed');
 const streamF = require('./../lib/stream_fetch');
 const userAuth = require('./../lib/user_authenticate');
 
-var createEmbed = function(profileID, url, done) {
-
+var createEmbed = function(profileID, url, title, done) {
+    //TODO: set a max limit per user, do this by iterating a max var on the user doc
     Embed.create({ 
         profileID: profileID, 
         'embedUrl.extractorType':'youtube',
-        'embedUrl.url':url
+        'embedUrl.url':url,
+        'embedUrl.title':title
     }, function (err, embed) {
         if (err){
             done({error:true});
@@ -24,12 +25,26 @@ var createEmbed = function(profileID, url, done) {
 
 router.post('/generateEmbed', (req, res)=>{
     userAuth.checkUser(req, res, function(){
+        var ytRegxVal = new RegExp('^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+');
         var url = req.body.YTURL;
-        //TODO: validate before saving.
-        createEmbed(req.user.profileID, url, function(embed){
-            //TODO: Check for error
-            res.json('videoEmbed?id='+embed._id);
-        });
+        if(ytRegxVal.test(url)){
+            streamF.getInfo(url, function(result){
+                if(result.error){
+                    res.status(404).send({message:'error'});
+                }else{
+                    createEmbed(req.user.profileID, url, result.title, function(embed){
+                        if(embed.error){
+                            res.status(404).send({message:'error'});
+                        }
+                        else{
+                            res.json('videoEmbed?id='+embed._id);
+                        }
+                    });
+                }
+            });
+        }else{
+            res.status(404).send({message:'error'});
+        }
     })
 });
 

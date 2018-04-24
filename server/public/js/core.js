@@ -14,8 +14,7 @@ app.config(function($locationProvider, $routeProvider) {
 	.otherwise({ redirectTo: '/' });
 });
 
-
-app.controller('loginController', function($scope, $http, googleApi) {
+app.controller('appConstructor', function($scope, $http, $route, googleApi, videoLinkModal) {
 	$scope.userAuthenticated = false;
 	console.log(googleApi);
 	googleApi.checkAuthentication().then((response)=>{
@@ -29,32 +28,53 @@ app.controller('loginController', function($scope, $http, googleApi) {
 		googleApi.authenticate(function() {
 			$scope.$apply(function(){
 				$scope.userAuthenticated = true
+				$route.reload();
 			});
 		});
 	};
 });
 
-app.controller('mainController', function($scope, $http, googleApi, embedStream) {
+app.controller('mainController', function($scope, $http, embedStream) {
+	if($scope.userAuthenticated){
+	$scope.populatedIframe = false;
+	$scope.newEmbeds = {};
+	var getNewUserEmbeds = function(){
+		embedStream.getUserEmbeds().then((embeds) => {
+			console.log(embeds);
+			$scope.newEmbeds = embeds.reverse().slice(0, 4);
+		}, (e) => {
+			console.log(e);
+		});
+	};
 
 	$scope.getStream = function(){
+		$('#createEmbedButton').attr('disabled', 'disabled');
 		embedStream.generateEmbed($scope.YTURL).then((streamUrl) => {
-			$('#videoPlayer')[0].src = streamUrl;
-			$('#iframeExample').text('<iframe frameborder="0" allow="autoplay; encrypted-media" allowfullscreen width="560" height="315" ' 
-			+ 'src="'+window.location+streamUrl+'"></iframe>');
+			$('.mainPlayer').attr('src', streamUrl);
+			$('.mainIframeExample').text('<iframe frameborder="0" allow="autoplay; encrypted-media" allowfullscreen width="560" height="315" ' 
+			+ 'src="'+location.protocol+'//'+location.host+'/'+streamUrl+'"></iframe>');
+			$('#createEmbedButton').removeAttr('disabled');
+			$scope.populatedIframe = true;
+			getNewUserEmbeds();
 		}, (e) => {
+			$('#createEmbedButton').removeAttr('disabled');
+			alert('Could not make Embed');
 			console.log(e);
         });
 	};
+	getNewUserEmbeds();
+	}
 });
 
-app.controller('userEmbedCtrl', function($scope, $http, googleApi, embedStream) {
+app.controller('userEmbedCtrl', function($scope, $http, embedStream) {
+	if($scope.userAuthenticated){
 	$('#userEmbeds-tab').tab('show')
 	$scope.embeds = {}
 	embedStream.getUserEmbeds().then((embeds) => {
-		$scope.embeds = embeds;
+		$scope.embeds = embeds.reverse();
 		console.log(embeds)
 	}, (e) => {
 		console.log(e);
 	});
-
+	}
 });

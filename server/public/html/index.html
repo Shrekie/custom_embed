@@ -21,15 +21,17 @@
         <!-- Services -->
         <script src="/js/googleApi.js"></script>
         <script src="/js/embedStream.js"></script>
+        <script src="/js/videoLinkModal.js"></script>
 
         <!-- META -->
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>custom_embed</title>
 
     </head>
 
     <body>
-        <div ng-controller="loginController" class="container-fluid">
+        <div ng-controller="appConstructor" class="container-fluid">
             <div class="row">
                 <div class="col text-center">
                     <h1>Custom Embed</h1>
@@ -37,6 +39,7 @@
             </div>
             <div ng-hide="userAuthenticated" class="row">
                 <div class="col text-center">
+                    <p>Hello, please log in to enjoy this service</p>
                     <button ng-click="loginGoogle()" type="button" class="btn btn-primary">Login</button>
                 </div>
             </div>
@@ -56,6 +59,28 @@
                 <div ng-view></div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="iframeModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="iframeModal-modal-title modal-title" id="iframeModal">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="iframeContainer"></div>
+                <code class="iframeModal-modal-body iframeExample modalIframeExample"></code>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
     </body>
 
 </html>

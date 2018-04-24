@@ -43,7 +43,7 @@ var findStream = function(uuid_code, done){
             done({notFound:true});
         }else{
             console.log(embed.embedUrl.url);
-            done(embed.embedUrl.url);
+            done({url:embed.embedUrl.url});
         }
       });
 
@@ -53,14 +53,21 @@ router.get('/videoEmbed', (req, res)=>{
     var videoID = req.param('id');
     console.log(videoID);
 
-    findStream(videoID, function(url){
-        streamF.getStream(url, function(stream){
-            console.log(stream);
-            //TODO check for error and not found
-            res.render('templates/templateOne', {
-                video: {stream:stream},
+    findStream(videoID, function(embed){
+        if(embed.error || embed.notFound){
+            res.status(404).send({message:'error'});
+        }else{
+            streamF.getStream(embed.url, function(result){
+                console.log(result);
+                if(result.error){
+                    res.status(404).send({message:'error'});
+                }else{
+                    res.render('templates/plainVideo', {
+                        video: {stream:result.stream},
+                    });
+                }
             });
-        });
+        }
     });
     
 });
@@ -69,8 +76,11 @@ router.get('/getUserEmbeds', (req, res)=>{
     userAuth.checkUser(req, res, function(){
         console.log(req.user.profileID);
         findUserStreams(req.user.profileID, function(embeds){
-            //TODO: check for error and not found
-            res.json(embeds);
+            if(embeds.error || embeds.notFound){
+                res.status(404).send({message:'error'});
+            }else{
+                res.json(embeds);
+            }
         })
     })
 });

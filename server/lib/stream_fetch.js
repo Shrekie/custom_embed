@@ -3,16 +3,30 @@ const ytdl = require('youtube-dl');
 var getStream = function(url, done){
 
     //TODO: Look into this command and how to bind to client IP -source-address !!-6, -o !!
-    //TODO: Need the youtube title to show in my embeds.
     ytdl.exec(url, ['-f best', '-o', '-s', '-g'], {}, function(err, output) {
 
-        if (err) throw err;
+        if (err){done({error:err})}else{
+            console.log(output);
+            var stream = output[0];
+            done({stream});
+        }
 
-        var stream = output[0];
-        done(stream);
 
     });
         
 };
 
-module.exports = {getStream};
+var getInfo = function(url, done){
+    ytdl.exec(url, ['-s', '-e'], {}, function(err, output) {
+
+        if (err){done({error:err})}else{
+            console.log(output);
+            var title = output[0];
+            done({title});
+        }
+
+
+    });
+}
+
+module.exports = {getStream, getInfo};
