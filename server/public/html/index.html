@@ -31,36 +31,34 @@
     </head>
 
     <body>
+
         <div ng-controller="appConstructor" class="container-fluid">
+
             <div class="row">
                 <div class="col text-center">
                     <h1>Custom Embed</h1>
                 </div>
             </div>
-            <div ng-hide="userAuthenticated" class="row">
-                <div class="col text-center">
-                    <p>Hello, please log in to enjoy this service</p>
-                    <button ng-click="loginGoogle()" type="button" class="btn btn-primary">Login</button>
-                </div>
-            </div>
-            <div ng-show="userAuthenticated" class="row">
-                    <div class="col">
-                        <ul class="nav justify-content-center nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="generateEmbed" data-toggle="tab" aria-controls="generateEmbed" aria-selected="true" role="tab" href="/">Generate</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="userEmbeds-tab" href="/userEmbeds" data-toggle="tab" role="tab" aria-controls="userEmbeds" aria-selected="false">My Embeds</a>
-                            </li>
-                        </ul>
+
+            
+            <div ng-controller="loginController">
+
+                <div class="row" ng-hide="userAuthenticated">
+                    <div class="col text-center">
+                        <p>Hello, please log in to enjoy this service</p>
+                        <button ng-click="loginGoogle()" type="button" class="btn btn-primary">Login</button>
                     </div>
+                </div>
+                
+                <div ng-show="userAuthenticated" ng-include="'/html/partials/topLinks.html'"></div>
+                <div ng-if="userAuthenticated" ng-controller="embedFetchController" ng-view></div>
+
             </div>
-            <div ng-show="userAuthenticated">
-                <div ng-view></div>
-            </div>
+
         </div>
 
-        <!-- Modal -->
+        <!-- Video Player Modal -->
+        <!-- TODO: put this in a partial -->
         <div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="iframeModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -73,6 +71,7 @@
             <div class="modal-body">
                 <div class="iframeContainer"></div>
                 <code class="iframeModal-modal-body iframeExample modalIframeExample"></code>
+                <div class="deleteEmbedLink-modal"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

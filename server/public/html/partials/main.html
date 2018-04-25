@@ -1,3 +1,5 @@
+<div ng-controller="mainController" ng-if="userAuthenticated">
+
 <div class="row mt-2">
     <div class="col-lg-6 offset-lg-3">
         <input ng-model="YTURL" class="form-control text-center" type="text" placeholder="YouTube URL Here">
@@ -10,7 +12,8 @@
 </div>
 <div class="row text-center mt-1" ng-show="populatedIframe">
     <div class="col">
-        <iframe class="embed-responsive-item videoPlayer mainPlayer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen width="560" height="315" src=""></iframe>
+        <div class="mainPlayerContainer">
+        </div>
     </div>
 </div>
 <div class="row text-center mt-2" ng-show="populatedIframe">
@@ -18,8 +21,15 @@
         <code class="iframeExample mainIframeExample"></code>
     </div>
 </div>
-<div class="row mt-2 text-center ">
+<div ng-show="newEmbeds.length" class="row mt-3 text-center ">
+        <div class="col-lg-6 offset-lg-3 col-md-12">
+                <small class="text-muted">Recent Embeds</small>
+        </div>
+</div>
+<div class="row text-center ">
         <div class="col-lg-6 offset-lg-3 col-md-12" ng-repeat="newEmbed in newEmbeds track by $index">
             <a href='' data-toggle="modal" data-target="#iframeModal" embed-id="{{newEmbed._id}}" >{{newEmbed.embedUrl.title}}</a>
         </div>
+</div>
+
 </div>

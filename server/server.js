@@ -12,6 +12,7 @@ const application = require('./routes/application');
 const oAuthRoute = require('./routes/google-oauth');
 const save_embed = require('./routes/save_embed');
 const display_embed = require('./routes/display_embed');
+const edit_embed = require('./routes/edit_embed');
 
 var app = express();
 app.set('trust proxy', true);
@@ -53,6 +54,7 @@ app.use(application);
 app.use(oAuthRoute);
 app.use(save_embed);
 app.use(display_embed);
+app.use(edit_embed);
 
 // view engine
 app.set('view engine', 'ejs');
@@ -67,6 +69,7 @@ app.get('/userLogin', (req, res) => {
 });
 
 app.get('/*', (req, res) => {
+    //TODO: return /login if user is not authenticated.
     res.sendFile(__dirname + '/public/html/index.html');
 })
 

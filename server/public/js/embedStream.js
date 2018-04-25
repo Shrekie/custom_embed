@@ -28,8 +28,22 @@ app.factory('embedStream', function($http, $q) {
 		return deferred.promise;
 	}
 
+	var deleteUserEmbed = function(videoID){
+		var deferred = $q.defer();
+		$http({
+			url: 'deleteEmbed',
+			method: "POST",
+			data: { id : videoID }
+		}).then(function (success) {
+			deferred.resolve(success.data);
+		}, function (error) {
+			deferred.reject(error);
+		});
+		return deferred.promise;
+	}
+
     return{
-		generateEmbed, getUserEmbeds
+		generateEmbed, getUserEmbeds, deleteUserEmbed
 	}
 
 });

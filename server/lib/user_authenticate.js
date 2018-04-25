@@ -1,9 +1,16 @@
-var checkUser = function(req, res, done){
+const TOTALEMBEDSALLOWED = 10;
 
-    if(req.isAuthenticated()){
-        done();
+var checkUser = function(isGenerating, req, res, done){
+
+    if(isGenerating){
+        console.log(req.user.totalEmbeds);
+        if(req.user.totalEmbeds >= TOTALEMBEDSALLOWED){done(true)}else{done(false)};
     }else{
-        res.redirect('/');
+        if(req.isAuthenticated()){
+            done();
+        }else{
+            res.redirect('/');
+        }
     }
         
 };

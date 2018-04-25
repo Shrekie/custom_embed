@@ -39,9 +39,10 @@ var findStream = function(uuid_code, done){
         if (err){
             done({error:true});
         };
-        if (!embed.embedUrl) {
+        if (embed === null) {
             done({notFound:true});
-        }else{
+        }
+        else{
             console.log(embed.embedUrl.url);
             done({url:embed.embedUrl.url});
         }
@@ -73,12 +74,16 @@ router.get('/videoEmbed', (req, res)=>{
 });
 
 router.get('/getUserEmbeds', (req, res)=>{
-    userAuth.checkUser(req, res, function(){
+    userAuth.checkUser(false, req, res, function(){
         console.log(req.user.profileID);
         findUserStreams(req.user.profileID, function(embeds){
-            if(embeds.error || embeds.notFound){
+            if(embeds.error){
                 res.status(404).send({message:'error'});
-            }else{
+            }
+            if(embeds.notFound){
+                res.json({notFound:true});
+            }
+            else{
                 res.json(embeds);
             }
         })
