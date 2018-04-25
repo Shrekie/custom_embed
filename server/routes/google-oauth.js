@@ -61,6 +61,11 @@ router.get('/checkLogin', (req, res)=>{
 	else res.json({logged:false});
 });
 
+router.get('/logout', function(req, res){
+	req.logout();
+	res.redirect('/');
+});
+
 // Serialize user information <->
 passport.serializeUser(function(user, done) {
 	done(null, user.id);

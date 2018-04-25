@@ -60,7 +60,8 @@ router.post('/generateEmbed', (req, res)=>{
         if(exceededTotalEmbeds){
             res.json({totalEmbedsExceeded:true});
         }else{
-            var ytRegxVal = new RegExp('^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+');
+            var ytRegxVal = new RegExp('^(http(s)?:\/\/)?((w){3}.)?'+
+            'youtu(be|.be)?(\.com)?\/.+');
             var url = req.body.YTURL;
             if(ytRegxVal.test(url)){
                 streamF.getInfo(url, function(result){

@@ -62,17 +62,6 @@ app.controller('embedFetchController', function($scope, embedStream) {
 		getEmbeds();
 	});
 
-	$("#iframeModal").on("click", ".deleteEmbedLink-modal button", function(){
-		console.log($(this).attr('embed-id'));
-		embedStream.deleteUserEmbed($(this).attr('embed-id')).then((response) => {
-			console.log(response)
-			$('#iframeModal').modal('hide');
-			getEmbeds();
-		}, (e) => {
-			console.log(e);
-		});
-	});
-
 	getEmbeds();
 
 });
@@ -81,13 +70,17 @@ app.controller('mainController', function($scope, $rootScope, $http, embedStream
 	$scope.populatedIframe = false;
 
 	$scope.getStream = function(){
+		
 		$('#createEmbedButton').attr('disabled', 'disabled');
+
 		embedStream.generateEmbed($scope.YTURL).then((streamUrl) => {
 			if(streamUrl.totalEmbedsExceeded){
+
 				$scope.populatedIframe = true;
 				$('.mainPlayerContainer').html('Total number of embeds exceeded, please delete some embeds.');
 				$('.mainIframeExample').text('');
 				$('#createEmbedButton').removeAttr('disabled');
+
 			}else{
 				$('.mainPlayer').attr('src', streamUrl);
 				$('.mainPlayerContainer').html(
@@ -104,8 +97,19 @@ app.controller('mainController', function($scope, $rootScope, $http, embedStream
 			$('#createEmbedButton').removeAttr('disabled');
 			alert('Could not make Embed');
 			console.log(e);
-        });
+		});
+		
 	};
+
+	$("#mainIframeContainer").on("click", ".customization-ctrl a#copy-embed-text", function(){
+		console.log('CLICK');
+		var $temp = $("<input>");
+		$("#mainIframeContainer").append($temp);
+		$temp.val($('.mainIframeExample').text()).select();
+		document.execCommand("copy");
+		$temp.remove();
+	});
+	
 });
 
 app.controller('userEmbedCtrl', function($scope) {

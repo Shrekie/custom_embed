@@ -10,6 +10,11 @@
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+        <!-- Glyphicons -->
+        <!-- TODO: download this -->
+        <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/solid.js" integrity="sha384-Q7KAHqDd5trmfsv85beYZBsUmw0lsreFBQZfsEhzUtUn5HhpjVzwY0Aq4z8DY9sA" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/fontawesome.js" integrity="sha384-M2FSA4xMm1G9m4CNXM49UcDHeWcDZNucAlz1WVHxohug0Uw1K+IpUhp/Wjg0y6qG" crossorigin="anonymous"></script>
+        
         <!-- ANGULAR -->
         <script src="/bower_components/angular/angular.js"></script>
         <script src="/bower_components/angular-route/angular-route.js"></script>
@@ -70,8 +75,10 @@
             </div>
             <div class="modal-body">
                 <div class="iframeContainer"></div>
-                <code class="iframeModal-modal-body iframeExample modalIframeExample"></code>
-                <div class="deleteEmbedLink-modal"></div>
+                <pre class="iframeModal-modal-body iframeExample modalIframeExample"></pre>
+                <div class="customization-ctrl">
+                    <a id="copy-embed-text" type="button" class="btn btn-default"><i class="fas fa-copy"></i></a>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
