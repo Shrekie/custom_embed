@@ -2,11 +2,12 @@
     <div class="col">
         <ul class="nav justify-content-center nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="generateEmbed" data-toggle="tab" aria-controls="generateEmbed" aria-selected="true" role="tab" href="/">Generate</a>
+                <a class="nav-link active" id="generateEmbed" data-toggle="tab" aria-controls="generateEmbed" aria-selected="true" role="tab" href="/"><i class="fas fa-plus"></i>&nbsp;</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="userEmbeds-tab" href="/userEmbeds" data-toggle="tab" role="tab" aria-controls="userEmbeds" aria-selected="false">My Embeds</a>
+                <a class="nav-link" id="userEmbeds-tab" href="/userEmbeds" data-toggle="tab" role="tab" aria-controls="userEmbeds" aria-selected="false"><i class="fas fa-list-ul"></i>&nbsp;</a>
             </li>
+            <button ng-click="logoutGoogle()" type="button" class="btn btn-link"><i class="fas fa-sign-out-alt"></i></button>
         </ul>
     </div>
 </div>

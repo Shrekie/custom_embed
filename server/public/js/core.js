@@ -12,7 +12,11 @@ app.config(function($locationProvider, $routeProvider) {
 	.otherwise({ redirectTo: '/' });
 });
 
-app.controller('appConstructor', function($scope, videoLinkModal) {
+app.controller('videoModalController', function($scope, videoLinkModal) {
+
+	$scope.$watch('userAuthenticated', function(userAuthenticated) {
+		videoLinkModal(userAuthenticated);
+	});
 
 });
 
@@ -37,21 +41,34 @@ app.controller('loginController', function($scope, $http, $route, googleApi) {
 			});
 		});
 	};
+
+	$scope.logoutGoogle = function(){
+		googleApi.unbindAuthentication().then((response)=>{
+			console.log(response);
+			$scope.userAuthenticated = response;
+			$route.reload();
+		},
+		(e)=>{
+			console.log(e);
+		});
+	};
+
 });
 
-app.controller('embedFetchController', function($scope, embedStream) {
+app.controller('embedFetchController', function($scope, embedManager) {
 	$scope.newEmbeds = {};
 	$scope.embeds = {};
 
 	var getEmbeds = function(){
-		embedStream.getUserEmbeds().then((embeds) => {
+		embedManager.getUserEmbeds().then((embeds) => {
 			if (embeds.notFound == true){
 				//TODO: do more if none is found
 				$scope.embeds = []
 				$scope.newEmbeds = []
 			}else{
-				$scope.embeds = embeds.reverse();
-				$scope.newEmbeds = embeds.reverse().slice(0, 4);
+				var reversed = embeds.reverse();
+				$scope.embeds = reversed;
+				$scope.newEmbeds = reversed.slice(0, 4);
 			}
 		}, (e) => {
 			console.log(e);
@@ -66,32 +83,25 @@ app.controller('embedFetchController', function($scope, embedStream) {
 
 });
 
-app.controller('mainController', function($scope, $rootScope, $http, embedStream) {
+app.controller('mainController', function($scope, $rootScope, $http, embedManager, iframeManager) {
 	$scope.populatedIframe = false;
 
 	$scope.getStream = function(){
 		
 		$('#createEmbedButton').attr('disabled', 'disabled');
 
-		embedStream.generateEmbed($scope.YTURL).then((streamUrl) => {
-			if(streamUrl.totalEmbedsExceeded){
-
-				$scope.populatedIframe = true;
-				$('.mainPlayerContainer').html('Total number of embeds exceeded, please delete some embeds.');
-				$('.mainIframeExample').text('');
+		embedManager.generateEmbed($scope.YTURL).then((video) => {
+			if(video.totalEmbedsExceeded){
+				alert('Total number of embeds exceeded, please delete some embeds.');
 				$('#createEmbedButton').removeAttr('disabled');
-
 			}else{
-				$('.mainPlayer').attr('src', streamUrl);
-				$('.mainPlayerContainer').html(
-				$('<iframe src="'+streamUrl+'"' +
-				'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen width="560" height="315"'+
-				'class="embed-responsive-item videoPlayer mainPlayer"></iframe>'));
-				$('.mainIframeExample').text('<iframe frameborder="0" allow="autoplay; encrypted-media" allowfullscreen width="560" height="315" ' 
-				+ 'src="'+location.protocol+'//'+location.host+'/'+streamUrl+'"></iframe>');
+
+				iframeManager.createIframe($('.mainPlayerContainer'), $('.mainIframeExample'), video._id)
+				.buttons($('.mainIframeContainer .customization-ctrl')).copyB();
 				$('#createEmbedButton').removeAttr('disabled');
 				$scope.populatedIframe = true;
 				$rootScope.$broadcast('new-embeds');
+
 			}
 		}, (e) => {
 			$('#createEmbedButton').removeAttr('disabled');
@@ -100,15 +110,6 @@ app.controller('mainController', function($scope, $rootScope, $http, embedStream
 		});
 		
 	};
-
-	$("#mainIframeContainer").on("click", ".customization-ctrl a#copy-embed-text", function(){
-		console.log('CLICK');
-		var $temp = $("<input>");
-		$("#mainIframeContainer").append($temp);
-		$temp.val($('.mainIframeExample').text()).select();
-		document.execCommand("copy");
-		$temp.remove();
-	});
 	
 });
 

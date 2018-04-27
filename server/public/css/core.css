@@ -9,9 +9,41 @@
     overflow: hidden;
     color: rgba(0, 0, 0, 0.70);
 }
+
 .videoPlayer{
     width:100%;
     height: 100%;
     max-width:560px;
     max-height:315px;
+}
+
+.urlInputBox{
+    font-size: 20px;
+}
+
+@media (max-width: 576px) {
+    #createEmbedButton {
+        margin-top:10px;
+    }
+}
+
+.useFontAwesomeFamily::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    font-family: "Font Awesome 5 Brands" !important;
+    color:red;
+    text-align: left;
+}
+.useFontAwesomeFamily:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-family: "Font Awesome 5 Brands" !important;
+}
+.useFontAwesomeFamily::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-family: "Font Awesome 5 Brands" !important;
+}
+.useFontAwesomeFamily:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-family: "Font Awesome 5 Brands" !important;
+}
+.useFontAwesomeFamily::-ms-input-placeholder { /* Microsoft Edge */
+    font-family: "Font Awesome 5 Brands" !important;
+}
+.useFontAwesomeFamily::placeholder { /* Most modern browsers support this now. */
+    font-family: "Font Awesome 5 Brands" !important;
 }

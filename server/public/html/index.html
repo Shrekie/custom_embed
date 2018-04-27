@@ -12,8 +12,10 @@
 
         <!-- Glyphicons -->
         <!-- TODO: download this -->
-        <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/solid.js" integrity="sha384-Q7KAHqDd5trmfsv85beYZBsUmw0lsreFBQZfsEhzUtUn5HhpjVzwY0Aq4z8DY9sA" crossorigin="anonymous"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/fontawesome.js" integrity="sha384-M2FSA4xMm1G9m4CNXM49UcDHeWcDZNucAlz1WVHxohug0Uw1K+IpUhp/Wjg0y6qG" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+
         
         <!-- ANGULAR -->
         <script src="/bower_components/angular/angular.js"></script>
@@ -25,7 +27,8 @@
 
         <!-- Services -->
         <script src="/js/googleApi.js"></script>
-        <script src="/js/embedStream.js"></script>
+        <script src="/js/embedManager.js"></script>
+        <script src="/js/iframeManager.js"></script>
         <script src="/js/videoLinkModal.js"></script>
 
         <!-- META -->
@@ -37,55 +40,34 @@
 
     <body>
 
-        <div ng-controller="appConstructor" class="container-fluid">
+        <div ng-controller="loginController" class="container-fluid">
 
             <div class="row">
                 <div class="col text-center">
                     <h1>Custom Embed</h1>
                 </div>
-            </div>
+            </div>            
 
+            <div class="row" ng-hide="userAuthenticated">
+                <div class="col-12 text-center">
+                    <p>Hello, please log in to enjoy this service</p>
+                </div>
+                <div class="col-12 text-center">
+                        <a href="" data-toggle="modal" data-target="#iframeModal" embed-id="54b561f0-4998-11e8-a46a-73de9bd0fb66" class="ng-binding">Example</a>
+                </div>
+                <div class="col-12 mt-3 text-center">
+                    <button ng-click="loginGoogle()" type="button" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i></button>
+                </div>
+            </div>
             
-            <div ng-controller="loginController">
+            <div ng-show="userAuthenticated" ng-include="'/html/partials/topLinks.html'"></div>
+            <div ng-if="userAuthenticated" ng-controller="embedFetchController" ng-view></div>
+            <!-- Video Player Modal -->
+            <div ng-controller="videoModalController" ng-include="'/html/partials/videoModal.html'"></div>
 
-                <div class="row" ng-hide="userAuthenticated">
-                    <div class="col text-center">
-                        <p>Hello, please log in to enjoy this service</p>
-                        <button ng-click="loginGoogle()" type="button" class="btn btn-primary">Login</button>
-                    </div>
-                </div>
-                
-                <div ng-show="userAuthenticated" ng-include="'/html/partials/topLinks.html'"></div>
-                <div ng-if="userAuthenticated" ng-controller="embedFetchController" ng-view></div>
-
-            </div>
 
         </div>
 
-        <!-- Video Player Modal -->
-        <!-- TODO: put this in a partial -->
-        <div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="iframeModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="iframeModal-modal-title modal-title" id="iframeModal">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="iframeContainer"></div>
-                <pre class="iframeModal-modal-body iframeExample modalIframeExample"></pre>
-                <div class="customization-ctrl">
-                    <a id="copy-embed-text" type="button" class="btn btn-default"><i class="fas fa-copy"></i></a>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-            </div>
-        </div>
-        </div>
 
     </body>
 

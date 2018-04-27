@@ -74,7 +74,7 @@ router.post('/generateEmbed', (req, res)=>{
                             }
                             else{
                                 console.log(req.user);
-                                res.json('videoEmbed?id='+embed._id);
+                                res.json({_id:embed._id});
                             }
                         });
                     }

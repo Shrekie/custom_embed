@@ -1,13 +1,11 @@
 <div ng-controller="mainController" ng-if="userAuthenticated">
 
-<div class="row mt-2">
-    <div class="col-lg-6 offset-lg-3">
-        <input ng-model="YTURL" class="form-control text-center" type="text" placeholder="YouTube URL Here">
+<div class="form-row align-items-center mt-1">
+    <div class="col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-8 offset-sm-2">
+        <input ng-model="YTURL" spellcheck="false" class="form-control urlInputBox text-center useFontAwesomeFamily" type="text" placeholder="&#xf167;">
     </div>
-</div>
-<div class="row">
-    <div class="col-lg-6 offset-lg-3 col-md-12 mt-2 text-center">
-        <button id="createEmbedButton" ng-click="getStream()" type="button" class="btn btn-primary">Create Embed</button>
+    <div class="col-lg-auto col-md-auto col-sm-auto text-center">
+        <button id="createEmbedButton" ng-click="getStream()" type="button" class="btn btn-primary"><i class="fas fa-link"></i></button>
     </div>
 </div>
 <div class="row text-center mt-1" ng-show="populatedIframe">
@@ -17,19 +15,20 @@
     </div>
 </div>
 <div class="row text-center mt-2" ng-show="populatedIframe">
-    <div id="mainIframeContainer" class="col-lg-6 offset-lg-3 col-md-6 offset-md-3">
+    <div class="mainIframeContainer col-lg-6 offset-lg-3 col-md-6 offset-md-3">
         <pre class="iframeExample mainIframeExample"></pre>
         <div class="customization-ctrl">
-            <a id="copy-embed-text" type="button" class="btn btn-default"><i class="fas fa-copy"></i></a>
         </div>
     </div>
 </div>
+<!--
 <div ng-show="newEmbeds.length" class="row mt-3 text-center ">
         <div class="col-lg-6 offset-lg-3 col-md-12">
-                <small class="text-muted">Recent Embeds</small>
+            <i class="far fa-newspaper"></i>
         </div>
 </div>
-<div class="row text-center ">
+-->
+<div class="row text-center mt-2">
         <div class="col-lg-6 offset-lg-3 col-md-12" ng-repeat="newEmbed in newEmbeds track by $index">
             <a href='' data-toggle="modal" data-target="#iframeModal" embed-id="{{newEmbed._id}}" >{{newEmbed.embedUrl.title}}</a>
         </div>

@@ -63,7 +63,7 @@ router.get('/checkLogin', (req, res)=>{
 
 router.get('/logout', function(req, res){
 	req.logout();
-	res.redirect('/');
+	res.json({logged:false});
 });
 
 // Serialize user information <->

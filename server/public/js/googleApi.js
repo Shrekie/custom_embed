@@ -36,9 +36,28 @@ app.factory('googleApi', function($http, $q, $window) {
 		return deferred.promise;
 	};
 
+	var unbindAuthentication = function(){
+		var deferred = $q.defer();
+		$http({
+			url: 'logout',
+			method: "GET",
+		}).then(function (success) {
+			if (success.data.logged){
+				deferred.resolve(success.data.logged);
+			}
+			else{
+				deferred.resolve(success.data.logged);
+			}
+		}, function (error) {
+			deferred.reject(error);
+		});
+		return deferred.promise;
+	};
+
     return{
 		authenticate,
-		checkAuthentication
+		checkAuthentication,
+		unbindAuthentication
 	}
 
 });

@@ -1,4 +1,4 @@
-app.factory('embedStream', function($http, $q) {
+app.factory('embedManager', function($http, $q) {
 
 	var generateEmbed = function(url){
 		var deferred = $q.defer();
