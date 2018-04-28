@@ -15,14 +15,12 @@ findUserStreams = function(profileID, done){
     var fields = '_id embedUrl'
 
     Embed.find(searchQuery, fields, function (err, embeds) {
-        console.log(embeds);
         if (err){
             done({error:true});
         };
         if (embeds[0] === undefined || embeds[0].length == 0) {
             done({notFound:true});
         }else{
-            console.log(embeds);
             done(embeds);
         }
       });
@@ -43,7 +41,6 @@ var findStream = function(uuid_code, done){
             done({notFound:true});
         }
         else{
-            console.log(embed.embedUrl.url);
             done({url:embed.embedUrl.url});
         }
       });
@@ -52,14 +49,12 @@ var findStream = function(uuid_code, done){
 
 router.get('/videoEmbed', (req, res)=>{
     var videoID = req.param('id');
-    console.log(videoID);
 
     findStream(videoID, function(embed){
         if(embed.error || embed.notFound){
             res.status(404).send({message:'error'});
         }else{
             streamF.getStream(embed.url, function(result){
-                console.log(result);
                 if(result.error){
                     res.status(404).send({message:'error'});
                 }else{
@@ -75,7 +70,6 @@ router.get('/videoEmbed', (req, res)=>{
 
 router.get('/getUserEmbeds', (req, res)=>{
     userAuth.checkUser(false, req, res, function(){
-        console.log(req.user.profileID);
         findUserStreams(req.user.profileID, function(embeds){
             if(embeds.error){
                 res.status(404).send({message:'error'});

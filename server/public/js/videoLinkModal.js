@@ -5,7 +5,6 @@ app.factory('videoLinkModal', function($http, $q, embedManager, iframeManager, $
 		$(document).on("shown.bs.modal", "#iframeModal", function(e) {
 
 			$('.iframeModal-modal-title').text($(e.relatedTarget).text());
-			console.log('hurr');
 			var iframeBuild = iframeManager.createIframe($('.iframeModal-modal-body'), $('.modalIframeExample'), $(e.relatedTarget).attr('embed-id'))
 			.buttons($('.modal-body .customization-ctrl'));
 

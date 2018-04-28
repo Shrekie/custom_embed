@@ -6,7 +6,6 @@ var getStream = function(url, done){
     ytdl.exec(url, ['-f best', '-o', '-s', '-g'], {}, function(err, output) {
 
         if (err){done({error:err})}else{
-            console.log(output);
             var stream = output[0];
             done({stream});
         }
@@ -20,7 +19,6 @@ var getInfo = function(url, done){
     ytdl.exec(url, ['-s', '-e'], {}, function(err, output) {
 
         if (err){done({error:err})}else{
-            console.log(output);
             var title = output[0];
             done({title});
         }

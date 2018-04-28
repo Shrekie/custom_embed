@@ -12,7 +12,6 @@ app.factory('googleApi', function($http, $q, $window) {
 		$window.addEventListener("message", function(event){
 			if(event.data == "this window has loaded");
 			loginWindow.close();
-			//TODO: Can this be reached without authentication?
 			cb();
 		}, {once:true});
 

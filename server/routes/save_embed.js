@@ -32,8 +32,7 @@ var incrementTotalEmbeds = function(profileID, done){
 };
 
 var createEmbed = function(profileID, url, title, done) {
-
-    //TODO: set a max limit per user, do this by iterating a max var on the user doc
+    
     Embed.create({ 
         profileID: profileID, 
         'embedUrl.extractorType':'youtube',
@@ -73,7 +72,6 @@ router.post('/generateEmbed', (req, res)=>{
                                 res.status(404).send({message:'error'});
                             }
                             else{
-                                console.log(req.user);
                                 res.json({_id:embed._id});
                             }
                         });

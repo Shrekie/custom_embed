@@ -7,6 +7,7 @@ const User = require('./../models/user');
 const userAuth = require('./../lib/user_authenticate');
 
 var decrementTotalEmbeds = function(profileID, done){
+    //TODO: put the incrementer and decrementer into one function
     var searchQuery = {
         profileID: profileID
     };
@@ -29,14 +30,13 @@ var decrementTotalEmbeds = function(profileID, done){
 }
 
 var deleteEmbed = function(uuid_code, profileID, done){
-    //Decrement number of totalEmbeds
+
     var searchQuery = {
         '_id': uuid_code,
         'profileID': profileID
     };
 
     Embed.remove(searchQuery, function (err, embed) {
-        console.log(embed);
         if (err){
             done({error:true});
         };
@@ -58,7 +58,6 @@ var deleteEmbed = function(uuid_code, profileID, done){
 router.post('/deleteEmbed', (req, res)=>{
     userAuth.checkUser(false, req, res, function(){
         var videoID = req.body.id
-        console.log(videoID)
         deleteEmbed(videoID, req.user.profileID, function(embed){
             //TODO: do not return notFound as error
             if(embed.error || embed.notFound){

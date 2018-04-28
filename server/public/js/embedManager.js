@@ -7,7 +7,6 @@ app.factory('embedManager', function($http, $q) {
 			method: "POST",
 			data: { YTURL : url }
 		}).then(function (success) {
-		console.log(success);
 			deferred.resolve(success.data);
 		}, function (error) {
 			deferred.reject(error);

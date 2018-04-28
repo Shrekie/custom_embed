@@ -8,7 +8,6 @@ const session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
 // Custom route imports
-const application = require('./routes/application');
 const oAuthRoute = require('./routes/google-oauth');
 const save_embed = require('./routes/save_embed');
 const display_embed = require('./routes/display_embed');
@@ -29,6 +28,12 @@ store.on('error', function(error) {
     assert.ok(false);
 });
 
+// In dev use unsecure cookies
+var cookieSecurity = false;
+if(config.env != 'development'){
+    cookieSecurity = true;
+}
+
 app.use(require('express-session')({
     secret: process.env.sessionSecret,
     cookie: {
@@ -37,7 +42,7 @@ app.use(require('express-session')({
     store: store,
     resave: false,
     saveUninitialized: false,
-    //TODO: Set this to true: cookie: { secure: false }
+    cookie: { secure: cookieSecurity }
 }));
 
 // Route encoding settings
@@ -50,7 +55,6 @@ app.use('/bower_components', express.static(path.join(__dirname, '/../bower_comp
 app.use('/assets', express.static(path.join(__dirname, '/../assets')));
 
 //Routes
-app.use(application);
 app.use(oAuthRoute);
 app.use(save_embed);
 app.use(display_embed);
@@ -69,7 +73,6 @@ app.get('/userLogin', (req, res) => {
 });
 
 app.get('/*', (req, res) => {
-    //TODO: return /login if user is not authenticated.
     res.sendFile(__dirname + '/public/html/index.html');
 })
 

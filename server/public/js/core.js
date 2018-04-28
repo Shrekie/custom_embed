@@ -22,10 +22,8 @@ app.controller('videoModalController', function($scope, videoLinkModal) {
 
 app.controller('loginController', function($scope, $http, $route, googleApi) {
 	$scope.userAuthenticated = false;
-	console.log(googleApi);
 
 	googleApi.checkAuthentication().then((response)=>{
-		console.log(response);
 		$scope.userAuthenticated = response;
 		$route.reload();
 	},
@@ -44,7 +42,6 @@ app.controller('loginController', function($scope, $http, $route, googleApi) {
 
 	$scope.logoutGoogle = function(){
 		googleApi.unbindAuthentication().then((response)=>{
-			console.log(response);
 			$scope.userAuthenticated = response;
 			$route.reload();
 		},

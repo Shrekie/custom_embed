@@ -29,21 +29,25 @@
 
 .useFontAwesomeFamily::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     font-family: "Font Awesome 5 Brands" !important;
-    color:red;
     text-align: left;
 }
 .useFontAwesomeFamily:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     font-family: "Font Awesome 5 Brands" !important;
+    text-align: left;
 }
 .useFontAwesomeFamily::-moz-placeholder { /* Mozilla Firefox 19+ */
     font-family: "Font Awesome 5 Brands" !important;
+    text-align: left;
 }
 .useFontAwesomeFamily:-ms-input-placeholder { /* Internet Explorer 10-11 */
     font-family: "Font Awesome 5 Brands" !important;
+    text-align: left;
 }
 .useFontAwesomeFamily::-ms-input-placeholder { /* Microsoft Edge */
     font-family: "Font Awesome 5 Brands" !important;
+    text-align: left;
 }
 .useFontAwesomeFamily::placeholder { /* Most modern browsers support this now. */
     font-family: "Font Awesome 5 Brands" !important;
+    text-align: left;
 }
