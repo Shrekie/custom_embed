@@ -19,7 +19,7 @@ app.set('trust proxy', true);
 //Session storage settings
 var store = new MongoDBStore({
     uri: process.env.MONGO_URL,
-    databaseName: 'custom_embed',
+    databaseName: 'custom-embed',
     collection: 'mySessions'
 });
 
