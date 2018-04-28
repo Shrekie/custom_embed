@@ -27,6 +27,7 @@ store.on('error', function(error) {
     throw error;
 });
 
+var cookieSecurity = false;
 // In dev use unsecure cookies
 /* Disable for now
 var cookieSecurity = false;
