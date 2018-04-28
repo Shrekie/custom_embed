@@ -24,8 +24,7 @@ var store = new MongoDBStore({
 });
 
 store.on('error', function(error) {
-    assert.ifError(error);
-    assert.ok(false);
+    throw error;
 });
 
 // In dev use unsecure cookies
