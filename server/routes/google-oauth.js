@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-const secrets = require('./../config/secrets.js');
 const User = require('./../models/user');
 
 // passportjs initialization and strategy call.
@@ -11,8 +10,8 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 passport.use(new GoogleStrategy({
-	clientID: secrets.clientID,
-	clientSecret: secrets.clientSecret,
+	clientID: process.env.clientID,
+	clientSecret: process.env.clientSecret,
 	callbackURL: "/auth/google/callback"
 },
 	function(accessToken, refreshToken, profile, done) {
