@@ -27,13 +27,11 @@ store.on('error', function(error) {
     throw error;
 });
 
-var cookieSecurity = false;
-// In dev use unsecure cookies
-/* Disable for now
+
 var cookieSecurity = false;
 if(config.env != 'development'){
     cookieSecurity = true;
-}*/
+}
 
 app.use(require('express-session')({
     secret: process.env.sessionSecret,
