@@ -45,7 +45,7 @@ passport.use(new GoogleStrategy({
 // Authentication routes
 router.get('/auth/google', 
 	passport.authenticate('google', 
-		{ scope: ['https://www.googleapis.com/auth/plus.login'] }));
+		{ scope: ['https://www.googleapis.com/auth/plus.login'], prompt : "select_account" }));
 
 
 router.get('/auth/google/callback', 
@@ -62,7 +62,8 @@ router.get('/checkLogin', (req, res)=>{
 
 router.get('/logout', function(req, res){
 	req.logout();
-	res.json({logged:false});
+    req.session.destroy();
+    res.redirect("/login");
 });
 
 // Serialize user information <->
