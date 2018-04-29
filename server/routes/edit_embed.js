@@ -6,29 +6,6 @@ const User = require('./../models/user');
 
 const userAuth = require('./../lib/user_authenticate');
 
-var decrementTotalEmbeds = function(profileID, done){
-    //TODO: put the incrementer and decrementer into one function
-    var searchQuery = {
-        profileID: profileID
-    };
-
-    var updates = {
-        $inc : {'totalEmbeds' : -1}
-    };
-
-    User.findOneAndUpdate(searchQuery, updates, function(err, user) {
-        if(err) {
-            done({error:true});
-        }
-        if (user === null) {
-            done({notFound:true});
-        }
-        else {
-            done(user);
-        }
-    });
-}
-
 var deleteEmbed = function(uuid_code, profileID, done){
 
     var searchQuery = {
@@ -43,7 +20,7 @@ var deleteEmbed = function(uuid_code, profileID, done){
         if (embed.n == 0) {
             done({notFound:true});
         }else{
-            decrementTotalEmbeds(profileID, function(user){
+            userAuth.changeTotalEmbeds(profileID, false, function(user){
                 if(user.error || user.notFound){
                     res.status(404).send({message:'error'});
                 }else{

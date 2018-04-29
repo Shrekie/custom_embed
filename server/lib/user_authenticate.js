@@ -1,17 +1,45 @@
+const User = require('./../models/user');
+
 const TOTALEMBEDSALLOWED = 100;
 
-var checkUser = function(isGenerating, req, res, done){
+var changeTotalEmbeds = function(profileID, incrementFlag, done){
 
-    if(isGenerating){
-        if(req.user.totalEmbeds >= TOTALEMBEDSALLOWED){done(true)}else{done(false)};
+    var searchQuery = {
+        profileID: profileID
+    };
+
+    var updates;
+    if (incrementFlag){
+        var updates = {$inc : {'totalEmbeds' : 1}};
     }else{
-        if(req.isAuthenticated()){
-            done();
-        }else{
-            res.redirect('/');
-        }
+        var updates = {$inc : {'totalEmbeds' : -1}};  
     }
-        
+
+    User.findOneAndUpdate(searchQuery, updates, function(err, user) {
+        if(err) {
+            done({error:true});
+        }
+        if (user === null) {
+            done({notFound:true});
+        } 
+        else {
+            done(user);
+        }
+    });
+
 };
 
-module.exports = {checkUser};
+
+var checkUser = function(isGenerating, req, res, done){
+    if(req.isAuthenticated()){
+        if(req.user.totalEmbeds >= TOTALEMBEDSALLOWED){
+            res.json({totalEmbedsExceeded:true});
+        }else{
+            done();
+        }
+    }else{
+        res.status(404).send({message:'error'});
+    }
+};
+
+module.exports = {checkUser, changeTotalEmbeds};

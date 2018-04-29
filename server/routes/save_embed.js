@@ -2,34 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 const Embed = require('./../models/embed');
-const User = require('./../models/user');
 
 const streamF = require('./../lib/stream_fetch');
 const userAuth = require('./../lib/user_authenticate');
-
-var incrementTotalEmbeds = function(profileID, done){
-
-    var searchQuery = {
-        profileID: profileID
-    };
-
-    var updates = {
-        $inc : {'totalEmbeds' : 1}
-    };
-
-    User.findOneAndUpdate(searchQuery, updates, function(err, user) {
-        if(err) {
-            done({error:true});
-        }
-        if (user === null) {
-            done({notFound:true});
-        } 
-        else {
-            done(user);
-        }
-    });
-
-};
 
 var createEmbed = function(profileID, url, title, done) {
     
@@ -42,7 +17,7 @@ var createEmbed = function(profileID, url, title, done) {
         if (err){
             done({error:true});
         }else{
-            incrementTotalEmbeds(profileID, function(user){
+            userAuth.changeTotalEmbeds(profileID, true, function(user){
                 if(user.error || user.notFound){
                     res.status(404).send({message:'error'});
                 }else{
@@ -55,33 +30,29 @@ var createEmbed = function(profileID, url, title, done) {
 };
 
 router.post('/generateEmbed', (req, res)=>{
-    userAuth.checkUser(true, req, res, function(exceededTotalEmbeds){
-        if(exceededTotalEmbeds){
-            res.json({totalEmbedsExceeded:true});
+    userAuth.checkUser(true, req, res, function(){
+        var ytRegxVal = new RegExp('^(http(s)?:\/\/)?((w){3}.)?'+
+        'youtu(be|.be)?(\.com)?\/.+');
+        var url = req.body.YTURL;
+        if(ytRegxVal.test(url)){
+            streamF.getInfo(url, function(result){
+                if(result.error){
+                    res.status(404).send({message:'error'});
+                }else{
+                    createEmbed(req.user.profileID, url, result.title, function(embed){
+                        if(embed.error){
+                            res.status(404).send({message:'error'});
+                        }
+                        else{
+                            res.json({_id:embed._id});
+                        }
+                    });
+                }
+            });
         }else{
-            var ytRegxVal = new RegExp('^(http(s)?:\/\/)?((w){3}.)?'+
-            'youtu(be|.be)?(\.com)?\/.+');
-            var url = req.body.YTURL;
-            if(ytRegxVal.test(url)){
-                streamF.getInfo(url, function(result){
-                    if(result.error){
-                        res.status(404).send({message:'error'});
-                    }else{
-                        createEmbed(req.user.profileID, url, result.title, function(embed){
-                            if(embed.error){
-                                res.status(404).send({message:'error'});
-                            }
-                            else{
-                                res.json({_id:embed._id});
-                            }
-                        });
-                    }
-                });
-            }else{
-                res.status(404).send({message:'error'});
-            }
+            res.status(404).send({message:'error'});
         }
-    })
+    });
 });
 
 module.exports = router;
