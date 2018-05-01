@@ -36,7 +36,6 @@ router.post('/deleteEmbed', (req, res)=>{
     userAuth.checkUser(false, req, res, function(){
         var videoID = req.body.id
         deleteEmbed(videoID, req.user.profileID, function(embed){
-            //TODO: do not return notFound as error
             if(embed.error || embed.notFound){
                 res.status(404).send({message:'error'});
             }else{

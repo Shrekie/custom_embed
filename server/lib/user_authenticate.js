@@ -2,14 +2,14 @@ const User = require('./../models/user');
 
 const TOTALEMBEDSALLOWED = 100;
 
-var changeTotalEmbeds = function(profileID, incrementFlag, done){
+var changeTotalEmbeds = function(profileID, isIncrementing, done){
 
     var searchQuery = {
         profileID: profileID
     };
 
     var updates;
-    if (incrementFlag){
+    if (isIncrementing){
         var updates = {$inc : {'totalEmbeds' : 1}};
     }else{
         var updates = {$inc : {'totalEmbeds' : -1}};  

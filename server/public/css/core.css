@@ -51,3 +51,8 @@
     font-family: "Font Awesome 5 Brands" !important;
     text-align: left;
 }
+
+/* prevent brief template display */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}

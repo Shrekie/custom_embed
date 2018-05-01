@@ -59,7 +59,6 @@ app.controller('embedFetchController', function($scope, embedManager) {
 	var getEmbeds = function(){
 		embedManager.getUserEmbeds().then((embeds) => {
 			if (embeds.notFound == true){
-				//TODO: do more if none is found
 				$scope.embeds = []
 				$scope.newEmbeds = []
 			}else{
