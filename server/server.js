@@ -51,7 +51,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Path sources
 app.use(express.static(__dirname + '/public/'));
 app.use('/bower_components', express.static(path.join(__dirname, '/../bower_components')))
-app.use('/assets', express.static(path.join(__dirname, '/../assets')));
 
 //Routes
 app.use(oAuthRoute);
