@@ -12,7 +12,7 @@ findUserStreams = function(profileID, done){
         'profileID': profileID
     };
 
-    var fields = '_id embedUrl'
+    var fields = '_id embedUrl configuration'
 
     Embed.find(searchQuery, fields, function (err, embeds) {
         if (err){
@@ -41,7 +41,7 @@ var findStream = function(uuid_code, done){
             done({notFound:true});
         }
         else{
-            done({url:embed.embedUrl.url});
+            done({url:embed.embedUrl.url, configuration:embed.configuration});
         }
       });
 
@@ -59,7 +59,7 @@ router.get('/videoEmbed', (req, res)=>{
                     res.status(404).send({message:'error'});
                 }else{
                     res.render('templates/plainVideo', {
-                        video: {stream:result.stream},
+                        video: {stream:result.stream, configuration:embed.configuration}
                     });
                 }
             });

@@ -1,28 +1,28 @@
 <html>
-    <head>
 
-        <!-- JQUERY -->
-        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<head>
 
-        <!-- BOOTSTRAP -->
-        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        
-        <link rel="stylesheet" href="/css/templates/plainVideo.css">
-        <!--<script src="/js/core.js"></script>-->
+    <!-- JQUERY -->
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
-        <!-- META -->
-        <meta charset="utf-8">
-        <title>Video</title>
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    </head>
+    <link rel="stylesheet" href="/css/templates/plainVideo.css">
+    <script src="/js/playerConfig.js"></script>
 
-    <body>
-        <video width="560" height="315" class='Flexible-container' controls="" src="<%= video.stream %>" autoplay name="media"></video>
-    </body>
-    <script>
-        $(window).on('load',function() {
-            console.log('load');
-        });
-    </script>
+    <!-- META -->
+    <meta charset="utf-8">
+    <title>Video</title>
+
+</head>
+
+<body>
+    <!-- <video width="560" height="315" class='Flexible-container' controls="" src="<%= video.stream %>" autoplay name="media"></video> -->
+</body>
+<script>
+    playerConfig(JSON.parse('<%- JSON.stringify(video) %>')).setOptions();
+</script>
+
 </html>

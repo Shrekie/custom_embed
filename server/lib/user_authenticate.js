@@ -3,7 +3,7 @@ const User = require('./../models/user');
 const TOTALEMBEDSALLOWED = 100;
 
 var changeTotalEmbeds = function(profileID, isIncrementing, done){
-
+    // TODO: add this on presave of the embed model.
     var searchQuery = {
         profileID: profileID
     };

@@ -15,6 +15,7 @@ var createEmbed = function(profileID, url, title, done) {
         'embedUrl.title':title
     }, function (err, embed) {
         if (err){
+            console.log(err);
             done({error:true});
         }else{
             userAuth.changeTotalEmbeds(profileID, true, function(user){
@@ -32,10 +33,8 @@ var createEmbed = function(profileID, url, title, done) {
 router.post('/generateEmbed', (req, res)=>{
     userAuth.checkUser(true, req, res, function(){
         /*
-            #FIXME:
-            Cut down the link in embed document
-            #FIXME:
-            Deal with foreign characters
+            #FIXME: Cut down the link in embed document
+            #FIXME: Deal with foreign characters
         */
         var ytRegxVal = new RegExp('^(http(s)?:\/\/)?((w){3}.)?'+
         'youtu(be|.be)?(\.com)?\/.+');

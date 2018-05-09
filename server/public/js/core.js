@@ -14,9 +14,10 @@ app.config(function($locationProvider, $routeProvider) {
 
 app.controller('videoModalController', function($scope, videoLinkModal) {
 
-	$scope.$watch('userAuthenticated', function(userAuthenticated) {
-		videoLinkModal(userAuthenticated);
-	});
+	$scope.openModal = function(currentEmbed){
+		console.log(currentEmbed);
+		videoLinkModal.createModalContent($scope.userAuthenticated, currentEmbed);
+	}
 
 });
 
@@ -91,13 +92,21 @@ app.controller('mainController', function($scope, $rootScope, $http, embedManage
 				alert('Total number of embeds exceeded, please delete some embeds.');
 				$('#createEmbedButton').removeAttr('disabled');
 			}else{
-
-				iframeManager.createIframe($('.mainPlayerContainer'), $('.mainIframeExample'), video._id)
-				.buttons($('.mainIframeContainer .customization-ctrl')).copyB();
+				console.log(video);
+				var iframeBuild = iframeManager.createIframe($('.mainPlayerContainer'), $('.mainIframeExample'), video)
+				.buttons($('.mainIframeContainer .customization-ctrl'))
+				iframeBuild.copyB();
+				iframeBuild.deleteB(function(){
+					//TODO: dont show the embed
+					$rootScope.$broadcast('new-embeds');
+				});
+				iframeBuild.configButtons($('.mainIframeContainer config-ctrl'), function(){
+					$rootScope.$broadcast('new-embeds');
+				});
 				$('#createEmbedButton').removeAttr('disabled');
 				$scope.populatedIframe = true;
 				$rootScope.$broadcast('new-embeds');
-
+				
 			}
 		}, (e) => {
 			$('#createEmbedButton').removeAttr('disabled');

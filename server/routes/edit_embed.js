@@ -32,6 +32,53 @@ var deleteEmbed = function(uuid_code, profileID, done){
 
 };
 
+var changeEmbed = function(uuid_code, profileID, configOptions, done){
+
+    var searchQuery = {
+        '_id': uuid_code,
+        'profileID': profileID
+    };
+
+    var updates = {
+        configuration: configOptions
+    };
+
+    var options = {
+        new: false,
+        upsert: false
+    };
+
+    Embed.findOneAndUpdate(searchQuery, updates, options, function (err, embed) {
+        if (err){
+            console.log(err);
+            done({error:true});
+        };
+        if (embed == null) {
+            console.log(embed == null);
+            done({notFound:true});
+        }else{
+            done(embed);
+        }
+    });
+
+};
+
+
+router.post('/changeConfig', (req, res) => {
+    userAuth.checkUser(false, req, res, function(){
+        var videoID = req.body.id;
+        var configOptions = req.body.configOptions;
+        changeEmbed(videoID, req.user.profileID, configOptions, function(embed){
+            if(embed.error || embed.notFound){
+                res.status(404).send({message:'error'});
+            }else{
+                res.json({removedVideo:true});
+            }
+        });
+    });
+});
+
+
 router.post('/deleteEmbed', (req, res)=>{
     userAuth.checkUser(false, req, res, function(){
         var videoID = req.body.id

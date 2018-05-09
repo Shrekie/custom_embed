@@ -27,6 +27,23 @@ app.factory('embedManager', function($http, $q) {
 		return deferred.promise;
 	}
 
+	var editUserEmbed = function(videoID, configOptions){
+		var deferred = $q.defer();
+		$http({
+			url: 'changeConfig',
+			method: "POST",
+			data: { 
+				id:videoID,
+				configOptions:configOptions
+			}
+		}).then(function (success) {
+			deferred.resolve(success.data);
+		}, function (error) {
+			deferred.reject(error);
+		});
+      	return deferred.promise;
+	}
+
 	var deleteUserEmbed = function(videoID){
 		var deferred = $q.defer();
 		$http({
@@ -42,7 +59,7 @@ app.factory('embedManager', function($http, $q) {
 	}
 
     return{
-		generateEmbed, getUserEmbeds, deleteUserEmbed
+		generateEmbed, getUserEmbeds, deleteUserEmbed, editUserEmbed
 	}
 
 });
