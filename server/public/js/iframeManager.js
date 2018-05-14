@@ -14,14 +14,12 @@ app.factory('iframeManager', function ($http, $q, embedManager) {
 		return {
 			buttons: function (customizationControlContainer) {
 
-				customizationControlContainer.html('');
-
 				var copyB = function () {
 
-					var copyButton = $('<a id="copy-embed-text" type="button" class="btn btn-default"><i class="fas fa-copy"></i></a>');
-					customizationControlContainer.append(copyButton);
+					var copyButton = customizationControlContainer.find('#copy-embed-text');
 
-					copyButton.on("click", function () {
+					copyButton.off('click').on("click", function () {
+						console.log('copy')
 						var $temp = $("<input>");
 						customizationControlContainer.append($temp);
 						$temp.val(iframeExampleContainer.text()).select();
@@ -33,11 +31,10 @@ app.factory('iframeManager', function ($http, $q, embedManager) {
 
 				var deleteB = function (done) {
 
-					var deleteButton = $('<a id="delete-embed-button" embed-id="' + videoID + '"' +
-						'type="button" class="btn btn-default"><i class="fas fa-trash-alt"></i></a>');
-					customizationControlContainer.append(deleteButton);
+					var deleteButton = customizationControlContainer.find('#delete-embed-button');
 
-					deleteButton.on("click", function () {
+					deleteButton.off('click').on("click", function () {
+						console.log('delete')
 						embedManager.deleteUserEmbed(videoID).then((response) => {
 							done();
 						}, (e) => {
@@ -48,35 +45,27 @@ app.factory('iframeManager', function ($http, $q, embedManager) {
 				}
 
 				var configButtons = function(configControlContainer, done){
-					configControlContainer.html('');
 
 					var currentConfigOptions = embed.configuration[0];
 
-					var autoPlayOption = $('<input class="form-check-input form-control" type="checkbox">');
-
+					var autoPlayOption = configControlContainer.find('#autoPlayOption');
 					autoPlayOption.prop('checked', currentConfigOptions.autoplay);
 
-					var updateButton = $('<a type="button" class="btn btn-default form-control">Update</a>');
-
-					configControlContainer.append([autoPlayOption, updateButton]);
-
-					updateButton.on("click", function () {
-
-						console.log(autoPlayOption.is(':checked'));
+					//TODO: combine all settings elements
+					// autoPlayOption.add(controlBarOption)
+					autoPlayOption.off('change').on('change', function () {
 
 						var configOptions = {
 							autoplay:autoPlayOption.is(':checked')
 						}
 
-						embedManager.editUserEmbed(videoID, configOptions).then((response) => {
-							done();
-							//TODO: Refresh iframe method
+						embedManager.editUserEmbed(videoID, configOptions).then((embed) => {
+							done(embed);
 						}, (e) => {
 							console.log(e);
 						});
 
 					});
-
 				}
 
 				return { copyB, deleteB, configButtons }

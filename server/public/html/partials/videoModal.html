@@ -9,10 +9,13 @@
         </div>
         <div class="modal-body">
             <div class="iframeModal-modal-body"></div>
-            <pre class="iframeExample modalIframeExample"></pre>
-            <div class="customization-ctrl">
+            <pre class="iframeExample modalIframeExample mt-1"></pre>
+            <div class="customization-ctrl mt-1">
+                <div ng-include="'/html/partials/iframe/embedCopyDel.html'"></div>
             </div>
-            <div class="config-ctrl form-group"></div>
+            <div class="config-ctrl">
+                <div ng-include="'/html/partials/iframe/embedConfigForm.html'"></div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i></button>

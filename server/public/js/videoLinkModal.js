@@ -9,13 +9,17 @@ app.factory('videoLinkModal', function($http, $q, embedManager, iframeManager, $
 		iframeBuild.copyB();
 
 		if(isAuthenticated){
+
 			iframeBuild.deleteB(function(){
 				$('#iframeModal').modal('hide');
 				$rootScope.$broadcast('new-embeds');
 			});
-			iframeBuild.configButtons($('.modal-body .config-ctrl'), function(){
+
+			iframeBuild.configButtons($('.modal-body .config-ctrl'), function(embed){
+				createModalContent(isAuthenticated, embed);
 				$rootScope.$broadcast('new-embeds');
 			});
+
 		}
 
 		$('#iframeModal').modal('show');

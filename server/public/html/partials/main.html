@@ -17,12 +17,15 @@
 <div class="row text-center mt-2" ng-show="populatedIframe">
     <div class="mainIframeContainer col-lg-6 offset-lg-3 col-md-6 offset-md-3">
         <pre class="iframeExample mainIframeExample"></pre>
-        <div class="customization-ctrl">
+        <div class="customization-ctrl mt-1">
+            <div ng-include="'/html/partials/iframe/embedCopyDel.html'"></div>
         </div>
-        <div class="config-ctrl form-group"></div>
+        <div class="config-ctrl">
+            <div ng-include="'/html/partials/iframe/embedConfigForm.html'"></div>
+        </div>
     </div>
 </div>
-<div class="row text-center mt-2">
+<div class="row text-center mt-1">
         <div class="col-lg-6 offset-lg-3 col-md-12" ng-repeat="newEmbed in newEmbeds track by $index">
             <a href='' ng-click="openModal(newEmbed)">{{newEmbed.embedUrl.title ? newEmbed.embedUrl.title : "No title"}}</a>
         </div>

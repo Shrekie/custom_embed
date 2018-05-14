@@ -49,7 +49,7 @@ router.post('/generateEmbed', (req, res)=>{
                             res.status(404).send({message:'error'});
                         }
                         else{
-                            res.json({_id:embed._id});
+                            res.json(embed);
                         }
                     });
                 }

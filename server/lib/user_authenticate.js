@@ -8,6 +8,11 @@ var changeTotalEmbeds = function(profileID, isIncrementing, done){
         profileID: profileID
     };
 
+    var options = {
+        new: true,
+        upsert: false
+    };
+
     var updates;
     if (isIncrementing){
         var updates = {$inc : {'totalEmbeds' : 1}};
@@ -15,7 +20,7 @@ var changeTotalEmbeds = function(profileID, isIncrementing, done){
         var updates = {$inc : {'totalEmbeds' : -1}};  
     }
 
-    User.findOneAndUpdate(searchQuery, updates, function(err, user) {
+    User.findOneAndUpdate(searchQuery, updates, options, function(err, user) {
         if(err) {
             done({error:true});
         }

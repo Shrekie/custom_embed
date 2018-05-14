@@ -44,7 +44,7 @@ var changeEmbed = function(uuid_code, profileID, configOptions, done){
     };
 
     var options = {
-        new: false,
+        new: true,
         upsert: false
     };
 
@@ -72,7 +72,7 @@ router.post('/changeConfig', (req, res) => {
             if(embed.error || embed.notFound){
                 res.status(404).send({message:'error'});
             }else{
-                res.json({removedVideo:true});
+                res.json(embed);
             }
         });
     });
