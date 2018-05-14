@@ -54,12 +54,28 @@ router.get('/videoEmbed', (req, res)=>{
         if(embed.error || embed.notFound){
             res.status(404).send({message:'error'});
         }else{
+            //TODO: select template based on 'embed.configuration'
+            res.render('templates/plainVideo', {
+                videoEmbed: {videoID, configuration:embed.configuration}
+            });
+        }
+    });
+    
+});
+
+router.get('/getVideoStream', (req, res)=>{
+    var videoID = req.param('id');
+
+    findStream(videoID, function(embed){
+        if(embed.error || embed.notFound){
+            res.status(404).send({message:'error'});
+        }else{
             streamF.getStream(embed.url, function(result){
                 if(result.error){
                     res.status(404).send({message:'error'});
                 }else{
-                    res.render('templates/plainVideo', {
-                        video: {stream:result.stream, configuration:embed.configuration}
+                    res.json({
+                        video: {stream:result.stream}
                     });
                 }
             });

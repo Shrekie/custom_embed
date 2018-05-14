@@ -19,10 +19,11 @@
 </head>
 
 <body>
-    <!-- <video width="560" height="315" class='Flexible-container' controls="" src="<%= video.stream %>" autoplay name="media"></video> -->
+    <div class="loader"></div>
 </body>
+
 <script>
-    playerConfig(JSON.parse('<%- JSON.stringify(video) %>')).setOptions();
+    playerConfig(JSON.parse('<%- JSON.stringify(videoEmbed) %>')).createVideo();
 </script>
 
 </html>
