@@ -1,4 +1,4 @@
-app.factory('googleApi', function($http, $q, $window) {
+app.factory('googleAPI', function($http, $q, $window) {
 
 	var authenticate = function(cb){
 

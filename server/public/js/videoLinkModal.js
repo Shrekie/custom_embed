@@ -1,4 +1,4 @@
-app.factory('videoLinkModal', function($http, $q, embedManager, iframeManager, $rootScope) {
+app.factory('videoLinkModal', function($http, $q, iframeManager, $rootScope) {
 
 	var createModalContent = function(isAuthenticated, embed){
 

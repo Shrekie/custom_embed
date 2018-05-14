@@ -1,4 +1,4 @@
-app.factory('iframeManager', function ($http, $q, embedManager) {
+app.factory('iframeManager', function ($http, $q, embedAPI) {
 
 	var createIframe = function (iframeContainer, iframeExampleContainer, embed) {
 
@@ -35,7 +35,7 @@ app.factory('iframeManager', function ($http, $q, embedManager) {
 
 					deleteButton.off('click').on("click", function () {
 						console.log('delete')
-						embedManager.deleteUserEmbed(videoID).then((response) => {
+						embedAPI.deleteUserEmbed(videoID).then((response) => {
 							done();
 						}, (e) => {
 							console.log(e);
@@ -59,7 +59,7 @@ app.factory('iframeManager', function ($http, $q, embedManager) {
 							autoplay:autoPlayOption.is(':checked')
 						}
 
-						embedManager.editUserEmbed(videoID, configOptions).then((embed) => {
+						embedAPI.editUserEmbed(videoID, configOptions).then((embed) => {
 							done(embed);
 						}, (e) => {
 							console.log(e);

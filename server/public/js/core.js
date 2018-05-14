@@ -12,10 +12,10 @@ app.config(function($locationProvider, $routeProvider) {
 	.otherwise({ redirectTo: '/' });
 });
 
-app.controller('loginController', function($scope, $http, $route, googleApi) {
+app.controller('loginController', function($scope, $http, $route, googleAPI) {
 	$scope.userAuthenticated = false;
 
-	googleApi.checkAuthentication().then((response)=>{
+	googleAPI.checkAuthentication().then((response)=>{
 		$scope.userAuthenticated = response;
 		$route.reload();
 	},
@@ -24,7 +24,7 @@ app.controller('loginController', function($scope, $http, $route, googleApi) {
 	});
 
 	$scope.loginGoogle = function(){
-		googleApi.authenticate(function() {
+		googleAPI.authenticate(function() {
 			$scope.$apply(function(){
 				$scope.userAuthenticated = true;
 				$route.reload();
@@ -33,7 +33,7 @@ app.controller('loginController', function($scope, $http, $route, googleApi) {
 	};
 
 	$scope.logoutGoogle = function(){
-		googleApi.unbindAuthentication().then((response)=>{
+		googleAPI.unbindAuthentication().then((response)=>{
 			$scope.userAuthenticated = response;
 			$route.reload();
 		},
@@ -44,12 +44,12 @@ app.controller('loginController', function($scope, $http, $route, googleApi) {
 
 });
 
-app.controller('embedFetchController', function($scope, embedManager) {
+app.controller('embedFetchController', function($scope, embedAPI) {
 	$scope.newEmbeds = {};
 	$scope.embeds = {};
 
 	var getEmbeds = function(){
-		embedManager.getUserEmbeds().then((embeds) => {
+		embedAPI.getUserEmbeds().then((embeds) => {
 			if (embeds.notFound == true){
 				$scope.embeds = []
 				$scope.newEmbeds = []
@@ -80,7 +80,7 @@ app.controller('videoModalController', function($scope, videoLinkModal, $rootSco
 
 });
 
-app.controller('mainController', function($scope, $rootScope, $http, embedManager, iframeManager) {
+app.controller('mainController', function($scope, $rootScope, $http, embedAPI, iframeManager) {
 	$scope.populatedIframe = false;
 
 	var createMainContent = function(video){
@@ -115,7 +115,7 @@ app.controller('mainController', function($scope, $rootScope, $http, embedManage
 		
 		$('#createEmbedButton').attr('disabled', 'disabled');
 
-		embedManager.generateEmbed($scope.YTURL).then((video) => {
+		embedAPI.generateEmbed($scope.YTURL).then((video) => {
 			if(video.totalEmbedsExceeded){
 
 				alert('Total number of embeds exceeded, please delete some embeds.');
