@@ -17,7 +17,7 @@ app.factory('googleAPI', function($http, $q, $window) {
 
 	};
 
-	var checkAuthentication = function(){
+	var checkAuthentication = function(){s
 		var deferred = $q.defer();
 		$http({
 			url: 'checkLogin',
