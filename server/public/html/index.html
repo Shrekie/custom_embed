@@ -44,25 +44,26 @@
                 <div class="col text-center">
                     <h3>Custom Embed</h3>
                 </div>
-            </div>            
-
-            <div class="row" ng-hide="userAuthenticated">
-                <div class="col-12 text-center">
-                    <p>A free service that embeds Youtube videos into custom players</p>
-                </div>
-                <div class="col-12 text-center">
-                        <a href="" data-toggle="modal" data-target="#iframeModal" embed-id="6f9fefa0-4ac7-11e8-9764-53e51d5e3685" class="ng-binding">Example</a>
-                </div>
-                <div class="col-12 mt-3 text-center">
-                    <button ng-click="loginGoogle()" type="button" class="btn btn-primary">Login <i class="fas fa-sign-in-alt"></i></button>
-                </div>
             </div>
-            
-            <div ng-show="userAuthenticated" ng-include="'/html/partials/topLinks.html'"></div>
-            
+
             <div ng-controller="videoModalController">
+
+                <div class="row" ng-hide="userAuthenticated">
+                    <div class="col-12 text-center">
+                        <p>A free service that embeds Youtube videos into custom players</p>
+                    </div>
+                    <div class="col-12 text-center">
+                        <a href="" ng-click='openModal({embedUrl:{title:"You got the dud V2.0"},_id:"6f9fefa0-4ac7-11e8-9764-53e51d5e3685"})'>Example</a>
+                    </div>
+                    <div class="col-12 mt-3 text-center">
+                        <button ng-click="loginGoogle()" type="button" class="btn btn-primary">Login <i class="fas fa-sign-in-alt"></i></button>
+                    </div>
+                </div>
+                
+                <div ng-show="userAuthenticated" ng-include="'/html/partials/topLinks.html'"></div>
                 <div ng-if="userAuthenticated" ng-controller="embedFetchController" ng-view></div>
                 <div ng-include="'/html/partials/videoModal.html'"></div>
+
             </div>
             
 

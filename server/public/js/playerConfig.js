@@ -16,7 +16,6 @@ var playerConfig = function(videoEmbed) {
     var createVideo = function(){
 
         getVideo(function(video){
-            console.log(video);
             var videoPlayer = $('<video class="Flexible-container"' +
             ' controls="" src="'+video.stream+'" name="media"></video>'
             );
@@ -27,7 +26,7 @@ var playerConfig = function(videoEmbed) {
 
             $('body').html(videoPlayer);
         });
-        
+
     };
 
     return {createVideo}
